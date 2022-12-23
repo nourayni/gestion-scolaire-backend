@@ -1,5 +1,6 @@
 package com.gestionuniversitaire.gestionuniversitaire.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +15,10 @@ public class Note {
     private Long idNote;
     private int noteControle;
     private int noteExamen;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Etudiant etudiant;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Matiere matiere;
 }

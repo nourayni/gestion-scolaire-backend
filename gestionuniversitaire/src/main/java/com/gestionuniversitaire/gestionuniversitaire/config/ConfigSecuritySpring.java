@@ -28,7 +28,7 @@ public class ConfigSecuritySpring {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login","/refreshtoken").permitAll()
+                        .requestMatchers("/refreshtoken").permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))

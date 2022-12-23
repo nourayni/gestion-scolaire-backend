@@ -20,4 +20,8 @@ public interface UserService {
     Users getUsersById(String id);
 
     void addRoleToUser(String userName,String roleName);
+
+    List<Users> findAllEtudiant();
+
+    List<Users> findAllProf();
 }

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +24,6 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
-
 @RestController
 @AllArgsConstructor
 public class UserControler {
@@ -53,9 +53,18 @@ public class UserControler {
     public Users findUserById(@PathVariable String id){
         return userService.getUsersById(id);
     }
-    @PostMapping("addroletouser")
+    @PostMapping("/addroletouser")
     public void addroleToUser(@RequestBody UserRole userRole){
         userService.addRoleToUser(userRole.getUser(),userRole.getRole());
+    }
+    @GetMapping("/findetudiant")
+    public List<Users> findetudiant(){
+        return userService.findAllEtudiant();
+    }
+
+    @GetMapping("findprof")
+    public  List<Users> finprof(){
+        return userService.findAllProf();
     }
 
     // refresh token

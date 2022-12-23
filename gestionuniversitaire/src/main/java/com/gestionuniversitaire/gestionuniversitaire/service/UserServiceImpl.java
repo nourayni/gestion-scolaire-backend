@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,6 +90,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Role role = roleRepository.findByRoleName(roleName);
         user.getRoles().add(role);
         role.getUsers().add(user);
+    }
+
+    @Override
+    public List<Users> findAllEtudiant() {
+        return userRepository.findAllEtudiant();
+    }
+
+    @Override
+    public List<Users> findAllProf() {
+        return userRepository.findAllProf();
     }
 
     @Override

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
         User user =(User) authResult.getPrincipal();
         Algorithm algorithm=Algorithm.HMAC256(secret);
         String jwtAccesToken = JWT.create()
@@ -60,6 +63,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles",user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
                 .sign(algorithm);
+        List<String> roles = user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList());
 
         String jwtRfreshToken = JWT.create()
                 .withSubject(user.getUsername())
@@ -67,8 +71,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
         Map<String,String> idToken = new HashMap<>();
-        idToken.put("access-token",jwtAccesToken);
-        idToken.put("refresh-token",jwtRfreshToken);
+        idToken.put("accessToken",jwtAccesToken);
+        idToken.put("refreshToken",jwtRfreshToken);
+        idToken.put("role", roles.toString());
         response.setContentType("application/json");
         new ObjectMapper().writeValue(response.getOutputStream(),idToken);
     }

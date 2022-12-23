@@ -14,8 +14,8 @@ public class Role {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRole;
     private String roleName;
-    @ManyToMany(fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Users> users = new ArrayList<>();
 
 }
