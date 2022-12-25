@@ -24,4 +24,6 @@ public interface UserService {
     List<Users> findAllEtudiant();
 
     List<Users> findAllProf();
+
+    void addMatierToprof(String UserName,Long idMatiere);
 }

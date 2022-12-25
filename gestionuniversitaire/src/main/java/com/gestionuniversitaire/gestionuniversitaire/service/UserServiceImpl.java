@@ -1,10 +1,8 @@
 package com.gestionuniversitaire.gestionuniversitaire.service;
 
 import com.gestionuniversitaire.gestionuniversitaire.exception.UserConflictException;
-import com.gestionuniversitaire.gestionuniversitaire.model.Etudiant;
-import com.gestionuniversitaire.gestionuniversitaire.model.Professeur;
-import com.gestionuniversitaire.gestionuniversitaire.model.Role;
-import com.gestionuniversitaire.gestionuniversitaire.model.Users;
+import com.gestionuniversitaire.gestionuniversitaire.model.*;
+import com.gestionuniversitaire.gestionuniversitaire.repository.MatiereRepository;
 import com.gestionuniversitaire.gestionuniversitaire.repository.RoleRepository;
 import com.gestionuniversitaire.gestionuniversitaire.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -28,6 +26,7 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
+    private MatiereRepository matiereRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     @Override
@@ -100,6 +99,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<Users> findAllProf() {
         return userRepository.findAllProf();
+    }
+
+    @Override
+    public void addMatierToprof(String UserName, Long idMatiere) {
+        Matiere matiere = matiereRepository.findByIdMatiere(idMatiere);
+        Professeur user = (Professeur) userRepository.findByUserName(UserName);
+
+        matiere.getProfesseurs().add(user);
+        user.getMatieres().add(matiere);
+
     }
 
     @Override

@@ -57,6 +57,12 @@ public class UserControler {
     public void addroleToUser(@RequestBody UserRole userRole){
         userService.addRoleToUser(userRole.getUser(),userRole.getRole());
     }
+
+    @PostMapping("addmatieretoprof")
+    public void addMatiereToProf(@RequestBody UserMatiere userMatiere){
+        userService.addMatierToprof(userMatiere.getUser(),userMatiere.getIdMatier());
+    }
+
     @GetMapping("/findetudiant")
     public List<Users> findetudiant(){
         return userService.findAllEtudiant();
@@ -108,4 +114,9 @@ public class UserControler {
 class UserRole{
     private String user;
     private String role;
+}
+@Data
+class UserMatiere{
+    private String user;
+    private Long idMatier;
 }

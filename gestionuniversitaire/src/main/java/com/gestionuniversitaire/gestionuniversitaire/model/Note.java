@@ -18,7 +18,7 @@ public class Note {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Etudiant etudiant;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     @ManyToOne
     private Matiere matiere;
 }
